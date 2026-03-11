@@ -41,11 +41,11 @@ export function SettingsPage() {
   const showAlert = isDirty && !alertDismissed
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
+    <div className="max-w-lg mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Avatar>
-          <AvatarImage src="" alt="Jane Doe" />
+          <AvatarImage src="" alt="Jeffery" />
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <div className="flex items-center gap-2">
