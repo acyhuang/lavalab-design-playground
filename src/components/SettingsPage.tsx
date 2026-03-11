@@ -141,6 +141,33 @@ export function SettingsPage() {
                   onCheckedChange={(v) => { setEmailNotifications(v); handleChange() }}
                 />
               </div>
+
+              <Separator />
+
+              <div className="pt-2">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full sm:w-auto bg-white border-red-500 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-600"
+                    >
+                      Delete Account
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Account</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction>Confirm Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -212,25 +239,22 @@ export function SettingsPage() {
 
       {/* Footer Actions */}
       <div className="flex items-center gap-3">
-        <Button onClick={() => setIsDirty(false)}>Save Changes</Button>
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Account</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Account</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Confirm Delete</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        {isDirty && (
+          <>
+            <Button onClick={() => setIsDirty(false)}>
+              Save Changes
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsDirty(false)
+                setAlertDismissed(true)
+              }}
+            >
+              Cancel
+            </Button>
+          </>
+        )}
       </div>
     </div>
   )
