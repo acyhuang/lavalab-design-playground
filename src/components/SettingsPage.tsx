@@ -24,18 +24,64 @@ import {
 } from '@/components/ui/alert-dialog'
 import { CircleAlert, HelpCircle, X } from 'lucide-react'
 
+const INITIAL = {
+  name: 'Jane Doe',
+  email: 'jane@example.com',
+  bio: 'Designer and developer based in San Francisco.',
+  language: 'en',
+  emailNotifications: true,
+  marketingEmails: false,
+  weeklyDigest: true,
+  twoFactor: false,
+  sessionTimeout: true,
+} as const
+
 export function SettingsPage() {
-  const [emailNotifications, setEmailNotifications] = useState(true)
-  const [marketingEmails, setMarketingEmails] = useState(false)
-  const [weeklyDigest, setWeeklyDigest] = useState(true)
-  const [twoFactor, setTwoFactor] = useState(false)
-  const [sessionTimeout, setSessionTimeout] = useState(true)
+  const [name, setName] = useState(INITIAL.name)
+  const [email, setEmail] = useState(INITIAL.email)
+  const [bio, setBio] = useState(INITIAL.bio)
+  const [language, setLanguage] = useState(INITIAL.language)
+  const [emailNotifications, setEmailNotifications] = useState(INITIAL.emailNotifications)
+  const [marketingEmails, setMarketingEmails] = useState(INITIAL.marketingEmails)
+  const [weeklyDigest, setWeeklyDigest] = useState(INITIAL.weeklyDigest)
+  const [twoFactor, setTwoFactor] = useState(INITIAL.twoFactor)
+  const [sessionTimeout, setSessionTimeout] = useState(INITIAL.sessionTimeout)
+  const [saved, setSaved] = useState(INITIAL)
   const [isDirty, setIsDirty] = useState(false)
   const [alertDismissed, setAlertDismissed] = useState(false)
 
   const handleChange = () => {
     setIsDirty(true)
     setAlertDismissed(false)
+  }
+
+  const handleSave = () => {
+    setSaved({
+      name,
+      email,
+      bio,
+      language,
+      emailNotifications,
+      marketingEmails,
+      weeklyDigest,
+      twoFactor,
+      sessionTimeout,
+    })
+    setIsDirty(false)
+  }
+
+  const handleCancel = () => {
+    setName(saved.name)
+    setEmail(saved.email)
+    setBio(saved.bio)
+    setLanguage(saved.language)
+    setEmailNotifications(saved.emailNotifications)
+    setMarketingEmails(saved.marketingEmails)
+    setWeeklyDigest(saved.weeklyDigest)
+    setTwoFactor(saved.twoFactor)
+    setSessionTimeout(saved.sessionTimeout)
+    setIsDirty(false)
+    setAlertDismissed(true)
   }
 
   const showAlert = isDirty && !alertDismissed
@@ -49,7 +95,7 @@ export function SettingsPage() {
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <div className="flex items-center gap-2">
-          <span className="font-medium">Jane Doe</span>
+          <span className="font-medium">{name}</span>
           <Badge>Pro</Badge>
         </div>
       </div>
@@ -91,12 +137,12 @@ export function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-1">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" defaultValue="Jane Doe" onChange={handleChange} />
+                <Input id="name" value={name} onChange={(e) => { setName(e.target.value); handleChange() }} />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="jane@example.com" onChange={handleChange} />
+                <Input id="email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); handleChange() }} />
               </div>
 
               <div className="space-y-1">
@@ -113,14 +159,14 @@ export function SettingsPage() {
                 </div>
                 <Input
                   id="bio"
-                  defaultValue="Designer and developer based in San Francisco."
-                  onChange={handleChange}
+                  value={bio}
+                  onChange={(e) => { setBio(e.target.value); handleChange() }}
                 />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="language">Language</Label>
-                <Select defaultValue="en" onValueChange={handleChange}>
+                <Select value={language} onValueChange={(v) => { setLanguage(v); handleChange() }}>
                   <SelectTrigger id="language">
                     <SelectValue />
                   </SelectTrigger>
@@ -140,6 +186,33 @@ export function SettingsPage() {
                   checked={emailNotifications}
                   onCheckedChange={(v) => { setEmailNotifications(v); handleChange() }}
                 />
+              </div>
+
+              <Separator />
+
+              <div className="pt-2">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full bg-white border-red-500 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-600"
+                    >
+                      Delete Account
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Account</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction>Confirm Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </CardContent>
           </Card>
@@ -212,25 +285,19 @@ export function SettingsPage() {
 
       {/* Footer Actions */}
       <div className="flex items-center gap-3">
-        <Button onClick={() => setIsDirty(false)}>Save Changes</Button>
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Account</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Account</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Confirm Delete</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        {isDirty && (
+          <>
+            <Button onClick={handleSave}>
+              Save Changes
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </>
+        )}
       </div>
     </div>
   )
