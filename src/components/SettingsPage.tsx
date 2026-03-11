@@ -133,14 +133,6 @@ export function SettingsPage() {
                   </SelectContent>
                 </Select>
               </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Email notifications</span>
-                <Switch
-                  checked={emailNotifications}
-                  onCheckedChange={(v) => { setEmailNotifications(v); handleChange() }}
-                />
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -152,6 +144,14 @@ export function SettingsPage() {
               <CardTitle>Notification Preferences</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm">Email notifications</span>
+                <Switch
+                  checked={emailNotifications}
+                  onCheckedChange={(v) => { setEmailNotifications(v); handleChange() }}
+                />
+              </div>
+
               <div className="flex items-center justify-between">
                 <span className="text-sm">Marketing emails</span>
                 <Switch
