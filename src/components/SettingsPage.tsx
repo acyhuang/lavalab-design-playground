@@ -41,15 +41,15 @@ export function SettingsPage() {
   const showAlert = isDirty && !alertDismissed
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
+    <div className="max-w-2xl mx-auto p-6 space-y-10 bg-blue-100">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Avatar>
-          <AvatarImage src="" alt="Jane Doe" />
+          <AvatarImage src="" alt="Kaitlyn Zhang" />
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <div className="flex items-center gap-2">
-          <span className="font-medium">Jane Doe</span>
+          <span className="font-medium">Kaitlyn Zhang</span>
           <Badge>Pro</Badge>
         </div>
       </div>
@@ -91,7 +91,7 @@ export function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-1">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" defaultValue="Jane Doe" onChange={handleChange} />
+                <Input id="name" defaultValue="Kaitlyn Zhang" onChange={handleChange} />
               </div>
 
               <div className="space-y-1">
