@@ -216,7 +216,7 @@ export function SettingsPage() {
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Account</Button>
+            <Button variant="outline" className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive">Delete Account</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
